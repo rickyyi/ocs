@@ -2,6 +2,8 @@ package cn.hf.manage.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.github.abel533.mapper.Mapper;
 
 import cn.hf.manage.form.CallResultForm;
@@ -24,8 +26,8 @@ public interface CallResultMapper extends Mapper<CallResult>{
 	 */
 	List<CallResult> queryCallResult(CallResultForm call);
 	
-	boolean updateCallResultByTaskId(String taskId, CallResult callResult);
+	boolean updateCallResultByTaskId(@Param(value = "taskId") String taskId, @Param(value = "callResult") CallResult callResult);
 	
-	boolean updateCallResultByCallId(String callId, CallResult callResult);
+	boolean updateCallResultByCallId(@Param(value = "callId") String callId, @Param(value = "callResult") CallResult callResult);
 	
 }
