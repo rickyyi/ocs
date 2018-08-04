@@ -2,11 +2,7 @@ package cn.hf.manage.controller.api;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.quartz.Job;
@@ -14,20 +10,12 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.Trigger;
-import org.springframework.scheduling.TriggerContext;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.annotation.SchedulingConfigurer;
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.stereotype.Component;
 
 import cn.hf.manage.pojo.CallTask;
 import cn.hf.manage.pojo.HttpResult;
 import cn.hf.manage.service.CallTaskService;
 import cn.hf.manage.service.EslConnectionService;
-import cn.hf.manage.util.HttpClientUtil;
+import cn.hf.manage.util.OutBoundInstance;
 import cn.hf.manage.util.SubStriUtil;
 
 /**
@@ -98,8 +86,9 @@ public class DynamicTaskScanApi implements Job {
 				// 3. 获取号码
 				String phoneNumber = callTask.getCallNumManage();
 				
+				String uuid = OutBoundInstance.getInstanceUUID();
 				// 4.进行传输任务
-				HttpResult httpResult = eslConnectionService.startCallTask(serviceId, String.valueOf(taskId), phoneNumber);
+				HttpResult httpResult = eslConnectionService.startCallTask(serviceId, String.valueOf(taskId), phoneNumber, uuid);
 				if (httpResult != null) {
 					if (httpResult.getCode() == 200) {
 						callTask.setPreState("进行中_连接正常_" + httpResult.getCode());
