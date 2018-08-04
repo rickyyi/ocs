@@ -10,11 +10,12 @@ public class EslEventHandlerSubscriber implements IEslEventListener {
 
     @Override
     public void eventReceived(EslEvent eslEvent) {
-
         if (eslEvent.getEventName().equals("CHANNEL_ANSWER")) {
             new AnswerEslEventHandler().handle(eslEvent);
         } else if (eslEvent.getEventName().equals("HEARTBEAT")) {
 
+        } else if (eslEvent.getEventName().equals("DTMF")) {
+        	new DtmfEslEventHandler().handle(eslEvent);
         } else if (eslEvent.getEventName().equals("CHANNEL_DESTROY")) {
 
         } else if (eslEvent.getEventName().equals("CHANNEL_HANGUP_COMPLETE")) {

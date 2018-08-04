@@ -73,9 +73,11 @@ public class EslConnectionServiceImpl implements EslConnectionService, Initializ
 				Client client = new Client();
 				client.connect(fs.getIp(), fs.getPort(), fs.getPwd(), TIME_OUT);
 				client.addEventListener(new EslEventHandlerSubscriber());
-		        client.setEventSubscriptions("plain", "all");
+		        //client.setEventSubscriptions("plain", "all");
+				client.setEventSubscriptions("plain", "CHANNEL_EXECUTE DTMF CHANNEL_EXECUTE_COMPLETE BACKGROUND_JOB CHANNEL_PARK CHANNEL_HANGUP CHANNEL_ANSWER DETECTED_SPEECH CUSTOM ASR ");
 				eslClientList.add(client);
-				log.error("----->connect freeswitch " + fs.getIp() + " success!!!");
+				log.info("----->connect freeswitch " + fs.getIp() + " success!!!");
+				break;
 			} catch (InboundConnectionFailure inboundConnectionFailure) {
 				log.error("----->connect freeswitch " + fs.getIp() + " failed");
 				inboundConnectionFailure.printStackTrace();
