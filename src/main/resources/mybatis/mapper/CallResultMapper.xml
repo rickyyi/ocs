@@ -70,7 +70,7 @@
 		  where task_id = #{taskId};
 	</update>
 	
-	<update id="updateCallResultByTaskId" >
+	<update id="updateCallResultByCallId" >
 		   update h_call_result 
 		  <if test="taskStatus != null and taskStatus != ''">
 		  		set task_status = #{taskStatus}
