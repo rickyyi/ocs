@@ -26,8 +26,8 @@ public interface CallResultMapper extends Mapper<CallResult>{
 	 */
 	List<CallResult> queryCallResult(CallResultForm call);
 	
-	boolean updateCallResultByTaskId(@Param(value = "taskId") String taskId, @Param(value = "callResult") CallResult callResult);
+	boolean updateCallResultByTaskId(@Param("taskId") String taskId, @Param("callResult") CallResult callResult);
 	
-	boolean updateCallResultByCallId(@Param(value = "callId") String callId, @Param(value = "callResult") CallResult callResult);
+	boolean updateCallResultByCallId(@Param("callId") String callId, @Param("callResult") CallResult callResult);
 	
 }

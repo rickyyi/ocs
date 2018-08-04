@@ -86,6 +86,7 @@ public class TimerTaskScanApi {
 									callTask.setPreState("进行中_连接正常_" + httpResult.getCode());
 									callTaskService.updateCallTask(callTask);
 									
+									logger.info("更新task[" + taskId + "]外呼状态");
 									CallResult callResult = new CallResult();
 									callResult.setCallId(uuid);
 									callResult.setTaskStatus("正在外呼");
