@@ -64,8 +64,8 @@ public interface CallResultService {
 	 */
 	boolean updateCallResult(String jsonStr);
 	
-	boolean updateCallResultByTaskId(String taskId, CallResult callResult);
+	boolean updateCallResultByTaskId(Integer taskId, CallResult callResult);
 	
-	boolean updateCallResultByCallId(String callId, CallResult callResult);
+	boolean updateCallResultByCallId(Integer callId, CallResult callResult);
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import cn.hf.manage.mapper.CallResultMapper;
 import cn.hf.manage.pojo.CallResult;
 import cn.hf.manage.pojo.CallTask;
 import cn.hf.manage.pojo.HttpResult;
@@ -38,6 +39,8 @@ public class TimerTaskScanApi {
 	private CallTaskService callTaskService;
 	@Autowired
 	private CallResultService callResultService;
+	@Autowired
+	private CallResultMapper mapper;
 	@Autowired
 	private EslConnectionService eslConnectionService;
 	private boolean flag = true;
@@ -87,12 +90,16 @@ public class TimerTaskScanApi {
 									callTaskService.updateCallTask(callTask);
 									
 									logger.info("更新task[" + taskId + "]外呼状态");
-									CallResult callResult = new CallResult();
+									
+									
+									CallResult callResultFind = new CallResult();
+									callResultFind.setTaskId(taskId);
+									CallResult callResult = mapper.selectOne(callResultFind);
+									
 									callResult.setCallId(uuid);
 									callResult.setTaskStatus("正在外呼");
-									callResult.setCallTime(new Timestamp(System.currentTimeMillis()));
-									callResultService.updateCallResultByTaskId(taskId + "", callResult);
-									
+									callResult.setCallTime(new Timestamp(System.currentTimeMillis()));									
+									mapper.updateByPrimaryKeySelective(callResult);
 									logger.info("连接正常");
 								} else {
 									callTask.setPreState("进行中_连接异常");

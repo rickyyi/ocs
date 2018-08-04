@@ -410,14 +410,18 @@ public class CallResultServiceImpl implements CallResultService {
 	}
 
 	@Override
-	public boolean updateCallResultByTaskId(String taskId, CallResult callResult) {
-		mapper.updateCallResultByTaskId(taskId, callResult);
+	public boolean updateCallResultByTaskId(Integer taskId, CallResult callResult) {
+		//mapper.updateCallResultByTaskId(taskId, callResult);
+		CallResult callResultFind = new CallResult();
+		callResultFind.setTaskId(taskId);
+		CallResult result = mapper.selectOne(callResultFind);
+		mapper.updateByPrimaryKeySelective(callResult);
 		return true;
 	}
 
 	@Override
-	public boolean updateCallResultByCallId(String callId, CallResult callResult) {
-		mapper.updateCallResultByCallId(callId, callResult);
+	public boolean updateCallResultByCallId(Integer callId, CallResult callResult) {
+		mapper.updateCallResultByCallId(callId+"", callResult);
 		return true;
 	}
 }
