@@ -39,5 +39,64 @@
 		</where>
 		LIMIT #{pageNum},#{pageSize}
 	</select>
+	
+	
+	<update id="updateCallResultByTaskId" >
+		   update h_call_result 
+		  <if test="taskStatus != null and taskStatus != ''">
+		  		set task_status = #{taskStatus}
+		  </if>
+		  <if test="callResult != null and callResult != ''">
+		  		,set call_result = #{callResult}
+		  </if>
+		  <if test="communicateTime != null and communicateTime != ''">
+		  		,set communicate_time = #{communicateTime}
+		  </if>
+		  <if test="callTime != null and callTime != ''">
+		  		,set call_time = #{callTime}
+		  </if>
+		  <if test="answerTime != null and answerTime != ''">
+		  		,set answer_time = #{answerTime}
+		  </if>
+		  <if test="endTime != null and endTime != ''">
+		  		,set end_time = #{endTime}
+		  </if>
+		  <if test="callId != null and callId != ''">
+		  		,set call_id = #{callId}
+		  </if>
+		  <if test="purpose != null and purpose != ''">
+		  		,set purpose = #{purpose}
+		  </if>
+		  where task_id = #{taskId};
+	</update>
+	
+	<update id="updateCallResultByTaskId" >
+		   update h_call_result 
+		  <if test="taskStatus != null and taskStatus != ''">
+		  		set task_status = #{taskStatus}
+		  </if>
+		  <if test="callResult != null and callResult != ''">
+		  		,set call_result = #{callResult}
+		  </if>
+		  <if test="communicateTime != null and communicateTime != ''">
+		  		,set communicate_time = #{communicateTime}
+		  </if>
+		  <if test="callTime != null and callTime != ''">
+		  		,set call_time = #{callTime}
+		  </if>
+		  <if test="answerTime != null and answerTime != ''">
+		  		,set answer_time = #{answerTime}
+		  </if>
+		  <if test="endTime != null and endTime != ''">
+		  		,set end_time = #{endTime}
+		  </if>
+		  <if test="callId != null and callId != ''">
+		  		,set call_id = #{callId}
+		  </if>
+		  <if test="purpose != null and purpose != ''">
+		  		,set purpose = #{purpose}
+		  </if>
+		  where call_id = #{callId};
+	</update>
 
 </mapper>

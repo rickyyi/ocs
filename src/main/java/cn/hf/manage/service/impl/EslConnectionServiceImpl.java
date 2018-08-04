@@ -29,13 +29,14 @@ public class EslConnectionServiceImpl implements EslConnectionService, Initializ
 		this.freeswitchList = freeswitchList;
 	}
 	
+	@Override
 	public Client getClient() {
 		return eslClientList.get(0);
 	}
 
 
 	@Override
-	public HttpResult startCallTask(String serviceId, String taskId, String phoneNumber) {
+	public HttpResult startCallTask(String serviceId, String taskId, String phoneNumber, String uuid) {
 		Client fsClient = getEslClient();
 		if (fsClient == null) {
 			log.info("----->connect freeswitch failed!");
@@ -44,7 +45,6 @@ public class EslConnectionServiceImpl implements EslConnectionService, Initializ
 		}
 		//String sendCommand = "sensecall.lua" + " '" + serviceId + "' '" + taskId + "' '" + phoneNumber + "'";
 		//String responseResult = fsClient.sendAsyncApiCommand("luarun", sendCommand);
-		String uuid = OutBoundInstance.getInstanceUUID();
 		String param = "{" + "origination_uuid=" + uuid +"}";
 		//originate sofia/gateway/bjfxy/13122868630 &playback(A12).wav
 		String sendCommand = "";

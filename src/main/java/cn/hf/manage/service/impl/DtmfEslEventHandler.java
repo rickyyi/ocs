@@ -1,9 +1,12 @@
 package cn.hf.manage.service.impl;
 
 import org.apache.log4j.Logger;
+import org.freeswitch.esl.client.inbound.Client;
 import org.freeswitch.esl.client.transport.event.EslEvent;
 
+import cn.hf.manage.service.EslConnectionService;
 import cn.hf.manage.service.EslEventHandler;
+import cn.hf.manage.util.ContextUtils;
 import cn.hf.manage.util.OutBoundInstance;
 
 /**
@@ -21,6 +24,8 @@ public class DtmfEslEventHandler implements EslEventHandler {
     	if (OutBoundInstance.getOutBound(uuid) == null) {
         	return;
         }
-        
+    	EslConnectionService eslConnectionService = (EslConnectionService)ContextUtils.getBean(EslConnectionService.class);;
+    	Client eslClient = eslConnectionService.getClient();
+    	eslClient.sendAsyncApiCommand("", "");
     }
 }

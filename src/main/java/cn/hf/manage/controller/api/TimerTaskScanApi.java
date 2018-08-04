@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import cn.hf.manage.pojo.CallResult;
 import cn.hf.manage.pojo.CallTask;
 import cn.hf.manage.pojo.HttpResult;
+import cn.hf.manage.service.CallResultService;
 import cn.hf.manage.service.CallTaskService;
 import cn.hf.manage.service.EslConnectionService;
-import cn.hf.manage.util.HttpClientUtil;
+import cn.hf.manage.util.OutBoundInstance;
 import cn.hf.manage.util.SubStriUtil;
 
 /**
@@ -35,6 +36,8 @@ public class TimerTaskScanApi {
 	// 属性注入呼叫业务业务层对象
 	@Autowired
 	private CallTaskService callTaskService;
+	@Autowired
+	private CallResultService callResultService;
 	@Autowired
 	private EslConnectionService eslConnectionService;
 	private boolean flag = true;
@@ -54,6 +57,7 @@ public class TimerTaskScanApi {
 		if (flag) {
 			flag = false;
 			Runnable runnable = new Runnable() { 
+				@Override
 				public void run() {  
 	            	// 查询的
 					String preState1 = "计划中";
@@ -74,12 +78,20 @@ public class TimerTaskScanApi {
 							// 3. 获取号码
 							String phoneNumber = callTask.getCallNumManage();
 							
+							String uuid = OutBoundInstance.getInstanceUUID();
 							// 4.进行传输任务
-							HttpResult httpResult = eslConnectionService.startCallTask(serviceId, String.valueOf(taskId), phoneNumber);
+							HttpResult httpResult = eslConnectionService.startCallTask(serviceId, String.valueOf(taskId), phoneNumber, uuid);
 							if (httpResult != null) {
 								if (httpResult.getCode() == 200) {
 									callTask.setPreState("进行中_连接正常_" + httpResult.getCode());
 									callTaskService.updateCallTask(callTask);
+									
+									CallResult callResult = new CallResult();
+									callResult.setCallId(uuid);
+									callResult.setTaskStatus("正在外呼");
+									callResult.setCallTime(new Timestamp(System.currentTimeMillis()));
+									callResultService.updateCallResultByTaskId(taskId + "", callResult);
+									
 									logger.info("连接正常");
 								} else {
 									callTask.setPreState("进行中_连接异常");

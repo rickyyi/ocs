@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -406,5 +407,17 @@ public class CallResultServiceImpl implements CallResultService {
 			e.printStackTrace();
 			log.error("下载文件到本地出错");
 		}
+	}
+
+	@Override
+	public boolean updateCallResultByTaskId(String taskId, CallResult callResult) {
+		mapper.updateCallResultByTaskId(taskId, callResult);
+		return true;
+	}
+
+	@Override
+	public boolean updateCallResultByCallId(String callId, CallResult callResult) {
+		mapper.updateCallResultByCallId(callId, callResult);
+		return true;
 	}
 }
