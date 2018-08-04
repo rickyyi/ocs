@@ -28,6 +28,10 @@ public class EslConnectionServiceImpl implements EslConnectionService, Initializ
 	public void setFreeswitchList(List<Freeswitch> freeswitchList) {
 		this.freeswitchList = freeswitchList;
 	}
+	
+	public Client getClient() {
+		return eslClientList.get(0);
+	}
 
 
 	@Override
