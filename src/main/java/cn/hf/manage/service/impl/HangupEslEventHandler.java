@@ -1,11 +1,15 @@
 package cn.hf.manage.service.impl;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.freeswitch.esl.client.transport.event.EslEvent;
 
+import cn.hf.manage.mapper.CallResultMapper;
+import cn.hf.manage.pojo.CallResult;
 import cn.hf.manage.service.EslEventHandler;
+import cn.hf.manage.util.ContextUtils;
 import cn.hf.manage.util.OutBoundInstance;
 
 /**
@@ -22,18 +26,14 @@ public class HangupEslEventHandler implements EslEventHandler{
         if (OutBoundInstance.getOutBound(uuid) == null) {
         	return;
         }
+        CallResultMapper mapper = (CallResultMapper)ContextUtils.getBean(CallResultMapper.class);
+    	CallResult callResultFind = new CallResult();
+		callResultFind.setCallId(uuid);
+		CallResult callResult = mapper.selectOne(callResultFind);
+		
+		callResult.setEndTime(new Timestamp(System.currentTimeMillis()));
+		callResult.setCommunicateTime(callResult.getEndTime().compareTo(callResult.getAnswertime()) + "");
+		mapper.updateByPrimaryKeySelective(callResult);
         OutBoundInstance.putOutBoundKey(uuid, "startAnswerTime", new Date());
-        new Thread(new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					Thread.sleep(3000L);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				OutBoundInstance.clearOutBound(uuid);
-			}
-		}).start();
     }
 }
