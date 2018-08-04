@@ -1,0 +1,25 @@
+[
+		{ "id":"11", "pId":"0", "name":"系统状态"},
+		{ "id":"112", "pId":"11", "name":"授权状态", "page":"authorize"},
+		{ "id":"113", "pId":"11", "name":"呼叫状态", "page":"call"},
+		{ "id":"114", "pId":"11", "name":"平台状态", "page":"platform"},
+		
+		{ "id":"12", "pId":"0", "name":"业务管理"},
+		{ "id":"121", "pId":"12", "name":"号码管理"},
+		{ "id":"1211", "pId":"121", "name":"号码组管理" ,"page":"numbergroup"},
+		{ "id":"1212", "pId":"121", "name":"号码管理" ,"page":"number"},
+		
+		{ "id":"122", "pId":"12", "name":"呼叫业务管理"},
+		{ "id":"1221", "pId":"122", "name":"关键字管理" ,"page":"keywords"},
+		{ "id":"1222", "pId":"122", "name":"自动语音文件管理" ,"page":"autovoice"},
+		{ "id":"1223", "pId":"122", "name":"业务类型管理" ,"page":"servicetype"},
+		{ "id":"1224", "pId":"122", "name":"号码标签管理" ,"page":"numbertag"},
+		
+		{ "id":"123", "pId":"12", "name":"呼叫任务管理" ,"page":"calltask"},
+		{ "id":"124", "pId":"12", "name":"呼叫结果管理" ,"page":"callresult"},
+		
+		{ "id":"13", "pId":"0", "name":"报表管理"},
+		{ "id":"131", "pId":"13", "name":"报表配置","page":"config"},
+		{ "id":"132", "pId":"13", "name":"报表任务管理","page":"service"},
+		{ "id":"133", "pId":"13", "name":"报表查询","page":"query"}
+]

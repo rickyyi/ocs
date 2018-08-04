@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd ">
+
+	<!-- 使用spring自带的占位符替换功能 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- 允许JVM参数覆盖 -->
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<!-- 忽略没有找到的资源文件 -->
+		<property name="ignoreResourceNotFound" value="true" />
+		<!-- 配置资源文件 -->
+		<property name="locations">
+			<list>
+				<value>classpath:mysqldb.properties</value>
+				<value>classpath:env.properties</value>
+				<value>classpath:common.properties</value>
+				<value>classpath:voice.properties</value>
+				<value>classpath:freeswitch.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 任务扫描驱动 -->
+	<task:annotation-driven />
+	
+	<!-- Spring注解方式配置调度任务 -->  
+	<!--
+	<task:executor id="executor" pool-size="200"/>  
+    <task:scheduler id="scheduler" pool-size="200"/>  
+    <task:annotation-driven executor="executor" scheduler="scheduler"/>
+    -->
+	
+	<!--配置注解扫包 -->
+	<context:component-scan base-package="cn.hf.manage"/>
+
+	<!--  定义数据源   连接池-->
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<!-- 数据库驱动 -->
+		<property name="driverClass" value="${mysql.driverClass}" />
+		<!-- 相应驱动的jdbcUrl -->
+		<property name="jdbcUrl" value="${mysql.url}" />
+		<!-- 数据库的用户名 -->
+		<property name="username" value="${mysql.username}" />
+		<!-- 数据库的密码 -->
+		<property name="password" value="${mysql.password}" />
+		<!-- 检查数据库连接池中空闲连接的间隔时间，单位是分，默认值：240，如果要取消则设置为0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
+		<!-- 连接池中未使用的链接最大存活时间，单位是分，默认值：60，如果要永远存活设置为0 -->
+		<property name="idleMaxAge" value="30" />
+		<!-- 每个分区最大的连接数  判断依据：请求并发数 -->
+		<property name="maxConnectionsPerPartition" value="100" />
+		<!-- 每个分区最小的连接数 -->
+		<property name="minConnectionsPerPartition" value="5" />
+	</bean>
+	
+	
+	<bean id="freeswitch1" class="cn.hf.manage.pojo.Freeswitch">
+		<property name="ip" value="${freeswitch.node1.ip}"></property>
+		<property name="port" value="${freeswitch.node1.port}"></property>
+		<property name="pwd" value="${freeswitch.node1.pwd}"></property>
+	</bean>
+	
+	<bean id="freeswitch2" class="cn.hf.manage.pojo.Freeswitch">
+		<property name="ip" value="${freeswitch.node2.ip}"></property>
+		<property name="port" value="${freeswitch.node2.port}"></property>
+		<property name="pwd" value="${freeswitch.node2.pwd}"></property>
+	</bean>
+	
+	<bean id="freeswitch3" class="cn.hf.manage.pojo.Freeswitch">
+		<property name="ip" value="${freeswitch.node3.ip}"></property>
+		<property name="port" value="${freeswitch.node3.port}"></property>
+		<property name="pwd" value="${freeswitch.node3.pwd}"></property>
+	</bean>
+	
+	<bean class="cn.hf.manage.service.impl.EslConnectionServiceImpl">
+		<property name="freeswitchList">
+            <list>
+                <ref bean="freeswitch1"/>
+                <ref bean="freeswitch2"/>
+                <ref bean="freeswitch3"/>
+            </list>
+        </property>
+	</bean>
+	
+	<!-- 
+    <bean id="mainTask" class="cn.hf.manage.controller.api.MainTask">
+	</bean>
+
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="mainTask" />
+		<property name="targetMethod" value="execute" />
+		<property name="concurrent" value="false" />
+	</bean>
+	-->
+	<!-- 主线程循环任务调度触发器 -->
+	<!-- 
+	<bean id="mainTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>30 * * * * ?</value>
+		</property>
+	</bean>
+
+	<bean id="springBeanJobFactory" class="cn.hf.manage.job.SpringBeanJobFactory"></bean>
+
+	-->
+
+	<!-- 调度工厂 -->
+	<!-- 
+	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="mainTrigger" />
+			</list>
+		</property>
+		<property name="jobFactory" ref="springBeanJobFactory"/>
+	</bean>
+	-->
+	
+</beans>

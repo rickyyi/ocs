@@ -1,0 +1,29 @@
+{                                                      
+	"total":3,	
+	"rows":[
+		{
+			"numberLabelId":"000001",
+			"labelName":"A",
+			"labelExplain":"高频购买信号",
+			"keyword":"5",
+			"purchaseSignalKeyword":"2",
+			"createTime":"2017-9-17 19:00:00"
+		},
+		{
+			"numberLabelId":"000002",
+			"labelName":"B",
+			"labelExplain":"低频购买信号",
+			"keyword":"3",
+			"purchaseSignalKeyword":"1",
+			"createTime":"2017-9-17 19:00:00"
+		},
+		{
+			"numberLabelId":"000003",
+			"labelName":"C",
+			"labelExplain":"不拒绝",
+			"keyword":"1",
+			"purchaseSignalKeyword":"0",
+			"createTime":"2017-9-17 19:00:00"
+		}
+	]
+}

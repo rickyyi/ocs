@@ -1,0 +1,15 @@
+# IntelliJ project files
+.idea
+.settings
+*.iml
+out
+gen
+
+.classpath
+.project
+
+# java files
+target/
+*.jar
+*.class
+*.war

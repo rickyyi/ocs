@@ -1,0 +1,8 @@
+{                                                      
+	"total":100,	
+	"rows":[ 
+		{"id":"1","name":"你好","mainTag":"通用","assistantTag":"222"},
+		{"id":"2","name":"股票","mainTag":"理财","assistantTag":"222"},
+		{"id":"3","name":"结束","mainTag":"通用","assistantTag":"222"}
+	]
+}

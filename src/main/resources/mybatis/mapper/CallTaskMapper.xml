@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+  
+<!--namespace 理论上随意命名   因为mybatis动态代理的使用  书写时，要讲namespace指定为接口的全路径 -->
+<mapper namespace="cn.hf.manage.mapper.CallTaskMapper">
+	<update id="batchUpdate">
+		UPDATE `h_call_task` SET
+			<!--
+			<if test="callTask.callTaskName != null">
+				`call_task_name` = #{callTask.callTaskName}
+			</if>
+			<if test="callTask.callServiceName != null">
+				,`call_service_name` = #{callTask.callServiceName}
+			</if>
+			<if test="callTask.callNumManage != null">
+				,`call_num_manage` = #{callTask.callNumManage}
+			</if>
+			<if test="callTask.planStartTime != null">
+				,`plan_start_time` = #{callTask.planStartTime}
+			</if>
+			 -->
+			<if test="callTask.preState != null">
+				`pre_state` = #{callTask.preState}
+			</if>
+	
+		WHERE id in  
+      <foreach collection="ids" index="index" item="item" separator="," open="(" close=")">  
+        #{item,jdbcType=BIGINT}  
+      </foreach>  
+	</update>
+</mapper>

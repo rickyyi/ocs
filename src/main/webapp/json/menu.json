@@ -1,0 +1,6 @@
+[
+		{ "id":"12", "pId":"0", "name":"业务管理"},
+		
+		{ "id":"123", "pId":"12", "name":"呼叫任务管理" ,"page":"calltask"},
+		{ "id":"124", "pId":"12", "name":"呼叫结果管理" ,"page":"callresult"}
+]

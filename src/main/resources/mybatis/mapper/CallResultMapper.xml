@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<!--namespace 理论上随意命名   因为mybatis动态代理的使用  书写时，要讲namespace指定为接口的全路径 -->
+<mapper namespace="cn.hf.manage.mapper.CallResultMapper">
+
+	<!-- 条件查询呼叫结果 -->
+	<select id="queryCallResult" parameterType="cn.hf.manage.form.CallResultForm" resultType="cn.hf.manage.form.CallResultForm">
+		SELECT * FROM 
+			h_wordSegmentation.h_call_result
+		<where>
+			<if test="time_1!=null and time_1!=''">
+					call_time <![CDATA[>]]> #{time_1}
+			</if>
+			<if test="time_2!=null and time_2!=''">
+					AND call_time <![CDATA[<]]> #{time_2}
+			</if>
+			<if test="duration_1!=null and duration_1!=''">
+					AND communicate_time <![CDATA[>]]> #{duration_1}
+			</if>
+			<if test="duration_2!=null and duration_2!=''">
+					AND communicate_time <![CDATA[<]]> #{duration_2}
+			</if>
+			<if test="callLabel!=null and callLabel!=''">
+					AND call_label = #{callLabel}
+			</if>
+			<if test="callId!=null and callId!=''">
+					AND call_id = #{callId}
+			</if>
+			<if test="taskStatus!=null and taskStatus!=''">
+					AND task_status = #{taskStatus}
+			</if>
+			<if test="callResult!=null and callResult!=''">
+					AND call_result = #{callResult}
+			</if>
+		</where>
+		LIMIT #{pageNum},#{pageSize}
+	</select>
+
+</mapper>

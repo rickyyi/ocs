@@ -1,0 +1,32 @@
+{                                                      
+	"total":3,	
+	"rows":[
+		{
+			"id":"000001",
+			"callTaskName":"地产_034",
+			"callServiceName":"地产",
+			"callNumManage":"9月地产",
+			"planStartTime":"2017-9-17 19:00:00",
+			"preState":"计划中",
+			"createTime":"2017-9-17 19:00:00"
+		},
+		{
+			"id":"000002",
+			"callTaskName":"金融_051",
+			"callServiceName":"金融",
+			"callNumManage":"金融201709",
+			"planStartTime":"2017-9-17 19:00:00",
+			"preState":"已完成",
+			"createTime":"2017-9-17 19:00:00"
+		},
+		{
+			"id":"000003",
+			"callTaskName":"金融_052",
+			"callServiceName":"金融",
+			"callNumManage":"金融201709",
+			"planStartTime":"2017-9-17 19:00:00",
+			"preState":"进行中",
+			"createTime":"2017-9-17 19:00:00"
+		}
+	]
+}
