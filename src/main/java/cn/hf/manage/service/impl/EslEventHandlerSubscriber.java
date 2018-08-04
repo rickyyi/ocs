@@ -18,8 +18,10 @@ public class EslEventHandlerSubscriber implements IEslEventListener {
         	new DtmfEslEventHandler().handle(eslEvent);
         } else if (eslEvent.getEventName().equals("CHANNEL_DESTROY")) {
 
-        } else if (eslEvent.getEventName().equals("CHANNEL_HANGUP_COMPLETE")) {
+        } else if (eslEvent.getEventName().equals("CHANNEL_HANGUP")) {
         	new HangupEslEventHandler().handle(eslEvent);
+        } else if (eslEvent.getEventName().equals("CHANNEL_HANGUP_COMPLETE")) {
+
         }
     }
 
